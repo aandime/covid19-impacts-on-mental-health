@@ -1,0 +1,55 @@
+---
+title: "Untitled"
+author: "Andy Dong"
+date: "3/23/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(xml2)
+library(rvest)
+library(ggplot2)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+URL.DRUG<-"https://drugabusestatistics.org/"
+
+DRUGS.ONE<-URL.DRUG%>%
+  read_html()%>%
+  html_table(fill = T)%>%
+  .[[1]]%>%
+  rename(`All Users` = "% Usership")%>%
+  rename(`Adults` = "% Usership")
+DRUGS.TWO<-URL.DRUG%>%
+  read_html()%>%
+  html_table(fill = T)%>%
+  .[[2]]
+DRUGS.ONE<- DRUGS.ONE[order(DRUGS.ONE$Substance),]
+DRUGS.TWO<- DRUGS.TWO[order(DRUGS.TWO$Substance),]
+```
+
+
+```{r}
+ggplot(DRUGS.ONE)%>%
+  geom_bar(x = Substance, y = )
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r}
+URL.SUICIDE<- "https://www.injuryfreenc.ncdhhs.gov/DataSurveillance/VDRS/OverallSuicide2018_FINAL.pdf"
+SUICIDE.ONE<- URL.SUICIDE%>%
+  read_html()%>%
+  html_table(fill = T)%>%
+  .[[1]]
+```
